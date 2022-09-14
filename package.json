@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "build": "tsc",
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon src/server.ts",
     "start": "npx ts-node src/server.ts",
     "test": "jest --no-cache --coverrage"
   },
