@@ -4,9 +4,9 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && prisma generete && npx prisma migrate deploy",
     "dev": "nodemon src/server.ts",
-    "start": "npx ts-node src/server.ts",
+    "start": "node ./dist/server.js",
     "test": "jest --no-cache --coverrage"
   },
   "keywords": [],
