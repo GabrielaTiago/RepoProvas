@@ -18,7 +18,11 @@ export async function login(user: authInterface.ISignInData) {
         throw throwCustomError('forbidden', 'Incorrect email and/or password');
     }
 
-    const token = jwt.sign({ id: userData.id }, process.env.JWT_SECRET as string, { expiresIn: '1d' });
+    const token = jwt.sign(
+        { id: userData.id },
+        process.env.JWT_SECRET as string,
+        { expiresIn: '1d' }
+    );
 
     return token;
 }
