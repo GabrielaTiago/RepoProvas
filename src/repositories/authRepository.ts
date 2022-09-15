@@ -17,5 +17,3 @@ export async function createUser(userEmail: string, userPassword: string) {
         },
     });
 }
-
-export async function confirmPassword() {}
