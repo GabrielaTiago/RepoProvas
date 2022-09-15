@@ -7,6 +7,7 @@ export const signUpSchema = joi.object({
         .trim()
         .regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/)
         .required(),
+    confirmPassword: joi.string().trim().min(8).required(),
 });
 
 export const signInSchema = joi.object({
