@@ -1,10 +1,13 @@
 import { Request, Response } from 'express';
 
 import * as authInterface from '../interfaces/authIntefaces';
+import * as authServices from '../services/authServices';
 
-export function signUp(req: Request, res: Response) {
+export async function signUp(req: Request, res: Response) {
     const user: authInterface.ISignUpData = req.body;
 
+    await authServices.createUser(user);
+    
     res.status(201).send('Successfully created user');
 }
 
