@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
@@ -14,4 +15,67 @@ model User {
   createdAt DateTime @default(now())
 
   @@map("users")
+}
+
+model Term {
+  id         Int          @id @default(autoincrement())
+  number     Int          @unique
+  createdAt  DateTime     @default(now())
+  Discipline Discipline[]
+
+  @@map("terms")
+}
+
+model Discipline {
+  id                Int                 @id @default(autoincrement())
+  name              String              @unique
+  term              Term                @relation(fields: [termId], references: [id])
+  termId            Int
+  createdAt         DateTime            @default(now())
+  TeacherDiscipline TeacherDiscipline[]
+
+  @@map("disciplines")
+}
+
+model Teacher {
+  id                Int                 @id @default(autoincrement())
+  name              String              @unique
+  createdAt         DateTime            @default(now())
+  TeacherDiscipline TeacherDiscipline[]
+
+  @@map("teachers")
+}
+
+model TeacherDiscipline {
+  id           Int        @id @default(autoincrement())
+  Teacher      Teacher    @relation(fields: [teacherId], references: [id])
+  teacherId    Int
+  Discipline   Discipline @relation(fields: [disciplineId], references: [id])
+  disciplineId Int
+  createdAt    DateTime   @default(now())
+  Test         Test[]
+
+  @@map("teachers_disciplines")
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  Test      Test[]
+
+  @@map("categories")
+}
+
+model Test {
+  id                  Int               @id @default(autoincrement())
+  name                String
+  pdfUrl              String
+  Category            Category          @relation(fields: [categoryId], references: [id])
+  categoryId          Int
+  TeacherDiscipline   TeacherDiscipline @relation(fields: [teacherDisciplineId], references: [id])
+  teacherDisciplineId Int
+  createdAt           DateTime          @default(now())
+
+  @@map("tests")
 }
