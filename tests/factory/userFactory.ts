@@ -21,7 +21,7 @@ export async function __createPassword() {
     return password;
 }
 
-export async function __creteUser() {
+export async function __createUser() {
     const password = await __createPassword();
     const email = await __createEmail();
 
