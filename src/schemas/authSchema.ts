@@ -5,7 +5,7 @@ export const signUpSchema = joi.object({
     password: joi
         .string()
         .trim()
-        .regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/)
+        .regex(/^([`~!@#$%^&*()_\-+={}[\]\\\|:;"'<>,\.\?\/a-zA-Z0-9]{8,20})$/)
         .required(),
     confirmPassword: joi.string().trim().min(8).required(),
 });
