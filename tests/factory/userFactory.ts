@@ -1,5 +1,12 @@
 import { faker } from '@faker-js/faker';
 import generator from 'generate-password';
+import { ISignInData } from '../../src/interfaces/authIntefaces';
+
+export async function __createEmail() {
+    const email: string = faker.internet.email();
+
+    return email;
+}
 
 export async function __createPassword() {
     const password: string = generator.generate({
@@ -16,12 +23,22 @@ export async function __createPassword() {
 
 export async function __creteUser() {
     const password = await __createPassword();
+    const email = await __createEmail();
 
     const user = {
-        email: faker.internet.email(),
+        email: email,
         password: password,
         confirmPassword: password,
     };
 
     return user;
+}
+
+export async function __createSession(user: ISignInData) {
+    const userSession = {
+        email: user.email,
+        password: user.password,
+    };
+
+    return userSession;
 }

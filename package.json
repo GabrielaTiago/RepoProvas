@@ -7,7 +7,7 @@
     "build": "tsc && npx prisma generete && npx prisma migrate deploy",
     "dev": "NODE_ENV=dev nodemon ./src/server.ts",
     "start": "node ./dist/server.js",
-    "test": "dotenv -e .env.test prisma migrate dev && dotenv -e .env.test prisma db seed && dotenv -e .env.test jest -i --no-cache --coverage"
+    "test": "dotenv -e .env.test prisma migrate dev && dotenv -e .env.test prisma db seed  && dotenv -e .env.test jest -i --no-cache --coverage"
   },
   "keywords": [],
   "author": "",
