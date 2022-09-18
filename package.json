@@ -4,10 +4,10 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "build": "tsc && prisma generete && npx prisma migrate deploy",
-    "dev": "nodemon src/server.ts",
+    "build": "tsc && npx prisma generete && npx prisma migrate deploy",
+    "dev": "NODE_ENV=dev nodemon ./src/server.ts",
     "start": "node ./dist/server.js",
-    "test": "jest --no-cache --coverrage"
+    "test": "NODE_ENV=test jest -i --no-cache --coverrage"
   },
   "keywords": [],
   "author": "",
