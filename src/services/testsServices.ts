@@ -1,4 +1,9 @@
+import { ITestData } from "../interfaces/testsInterface";
 import * as repositoryTests from "../repositories/testsRepository";
+
+export async function insertTest(test: ITestData) {
+    
+}
 
 export async function showTestsByDiscipline() {
     const tests = await repositoryTests.getTestsByDiscipline();
