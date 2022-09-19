@@ -45,37 +45,36 @@ export async function getTestsByDiscipline() {
 }
 
 export async function getTestsByTeacher() {
-    const testsByTeachers = await database.teacher.findMany({
-        select : {
+    const testsTeachers = await database.teacher.findMany({
+        distinct: ["name"],
+        select: {
             id: true,
-            name: true
-        }
-    });
-
-    const teacherTests = await Promise.all(testsByTeachers.map(async(teacherTest)=> {
-        const infoTests = await database.category.findMany({
-            select: {
-                id: true,
-                name: true,
-                Test: {
-                    select: {
-                        id: true,
-                        name: true,
-                        pdfUrl: true,
-                        TeacherDiscipline: {
-                            select: {
-                                Discipline: {
-                                    select: {
-                                        id: true,
-                                        name: true
-                                    }
+            name: true,
+            TeacherDiscipline: {
+                select: {
+                    Discipline: {
+                        select: {
+                            id: true,
+                            name: true,
+                        }
+                    },
+                    Test: {
+                        select: {
+                            id: true,
+                            name: true,
+                            pdfUrl: true,
+                            createdAt: true,
+                            Category: {
+                                select: {
+                                    id:true,
+                                    name: true
                                 }
                             }
-                        }, 
+                        }
                     }
                 }
             }
-        });
-    }));
-    
+        }
+    });
+    return testsTeachers;
 }
