@@ -1,9 +1,11 @@
 import { Router } from "express";
 
+import * as testsController from "../controllers/testsController";
+
 const testsRouter = Router();
 
 testsRouter.post("/tests")
-testsRouter.get('/tests/discipline');
+testsRouter.get('/tests/discipline', testsController.getTestsByDiscipline);
 testsRouter.get('/tests/teacher');
 
 export default testsRouter;
