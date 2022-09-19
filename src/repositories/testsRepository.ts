@@ -1,4 +1,9 @@
 import { database } from '../database/postgres';
+import { TInsertTest } from '../types/testInsertTypes';
+
+export async function insertTest(testData: TInsertTest) {
+    return await database.test.create({ data: testData });
+}
 
 export async function getTestsByDiscipline() {
     const testsDisciplines = await database.term.findMany({
