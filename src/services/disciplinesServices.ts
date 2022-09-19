@@ -8,4 +8,6 @@ export async function checksTheDiscipline(disciplineId: number) {
     if (!discipline) {
         throw throwCustomError('not_found', "This discipline doesn't exits");
     }
+
+    return discipline;
 }

@@ -8,4 +8,6 @@ export async function checksTheTeacher(teacherId: number) {
     if (!teacher) {
         throw throwCustomError('not_found', "This teacher doesn't exits");
     }
+
+    return teacher;
 }

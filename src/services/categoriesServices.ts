@@ -8,4 +8,6 @@ export async function checksTheCategory(categoryId: number) {
     if (!category) {
         throw throwCustomError('not_found', "This category doesn't exits");
     }
+    
+    return category;
 }
