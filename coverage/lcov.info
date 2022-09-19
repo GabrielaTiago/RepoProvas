@@ -403,13 +403,13 @@ TN:
 SF:tests/factory/userFactory.ts
 FN:5,__createEmail
 FN:11,__createPassword
-FN:24,__creteUser
+FN:24,__createUser
 FN:37,__createSession
 FNF:4
 FNH:4
 FNDA:7,__createEmail
 FNDA:8,__createPassword
-FNDA:6,__creteUser
+FNDA:6,__createUser
 FNDA:3,__createSession
 DA:1,1
 DA:2,1
