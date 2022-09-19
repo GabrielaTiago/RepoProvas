@@ -7,7 +7,7 @@
     "build": "tsc && npx prisma generate && npx prisma migrate deploy",
     "dev": "NODE_ENV=dev nodemon ./src/server.ts",
     "start": "node ./dist/src/server.js",
-    "test": "dotenv -e .env.test prisma migrate dev && dotenv -e .env.test prisma db seed  && dotenv -e .env.test jest -i --coverage"
+    "test": "dotenv -e .env.test prisma migrate dev && dotenv -e .env.test prisma db seed  && dotenv -e .env.test -- jest -i --detectOpenHandles --coverage"
   },
   "keywords": [],
   "author": "",
