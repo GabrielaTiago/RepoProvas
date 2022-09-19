@@ -1,6 +1,6 @@
 import { database } from '../database/postgres';
 
-export async function checksTheDisciplines(disciplineId: number) {
+export async function checksTheDiscipline(disciplineId: number) {
     const discipline = await database.discipline.findUnique({
         where: { id: disciplineId }
     });
