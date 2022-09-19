@@ -1,7 +1,8 @@
 import { database } from '../database/postgres';
 
 export async function getTestsByDiscipline() {
-    const terms = await database.term.findMany({
+    const testsDisciplines = await database.term.findMany({
+        distinct: ['id'],
         select: {
             id: true,
             number: true,
@@ -9,44 +10,33 @@ export async function getTestsByDiscipline() {
                 select: {
                     id: true,
                     name: true,
-                },
-            },
-        },
-    });
-
-    const categories = await Promise.all(
-        terms.map(async (term) => {
-            const category = await database.category.findMany({
-                select: {
-                    id: true,
-                    name: true,
-                    Test: {
+                    TeacherDiscipline: {
                         select: {
-                            id: true,
-                            name: true,
-                            pdfUrl: true,
-                            createdAt: true,
-                            TeacherDiscipline: {
+                            Teacher: {
                                 select: {
-                                    disciplineId: true,
-                                    Teacher: {
-                                        select: {
-                                            name: true,
-                                        },
-                                    },
+                                    name: true,
+                                },
+                            },
+                            Test: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    pdfUrl: true,
+                                    createdAt: true,
                                 },
                             },
                         },
                     },
                 },
-            });
-        })
-    );
+            },
+        },
+    });
+    return testsDisciplines;
 }
 
 export async function getTestsByTeacher() {
     const testsTeachers = await database.teacher.findMany({
-        distinct: ["name"],
+        distinct: ['name'],
         select: {
             id: true,
             name: true,
@@ -56,7 +46,7 @@ export async function getTestsByTeacher() {
                         select: {
                             id: true,
                             name: true,
-                        }
+                        },
                     },
                     Test: {
                         select: {
@@ -66,15 +56,15 @@ export async function getTestsByTeacher() {
                             createdAt: true,
                             Category: {
                                 select: {
-                                    id:true,
-                                    name: true
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+                                    id: true,
+                                    name: true,
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
     });
     return testsTeachers;
 }
