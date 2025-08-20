@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import * as authInterface from '../interfaces/authIntefaces';
+import * as authInterface from '../interfaces/authInterfaces';
 import * as authServices from '../services/authServices';
 
 export async function signUp(req: Request, res: Response) {

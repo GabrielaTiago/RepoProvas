@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import generator from 'generate-password';
 
-import { ISignInData } from '../../src/interfaces/authIntefaces';
+import { ISignInData } from '../../src/interfaces/authInterfaces';
 
 export async function __createEmail() {
     const email: string = faker.internet.email();
