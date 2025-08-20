@@ -1,12 +1,12 @@
 import { Router } from 'express';
 
 import { signIn, signUp } from '../controllers/authController';
-import { errorHandler } from '../middlewares/errorHandlerMiddleware';
-import { validateShemas } from '../middlewares/validateSchemasMiddleware';
+import { validateSchema } from '../middlewares/validateSchemaMiddleware';
+import { schemas } from '../schemas/schemas';
 
 const authRouter = Router();
 
-authRouter.post('/', validateShemas('login'), errorHandler, signIn);
-authRouter.post('/sign-up', validateShemas('register'), errorHandler, signUp);
+authRouter.post('/login', validateSchema(schemas.login), signIn);
+authRouter.post('/sign-up', validateSchema(schemas.register), signUp);
 
 export default authRouter;
