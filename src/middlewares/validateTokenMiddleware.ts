@@ -1,6 +1,7 @@
-import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { NextFunction, Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+
 import { throwCustomError } from '../errors/throwErrors';
 
 dotenv.config();

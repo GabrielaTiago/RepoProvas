@@ -1,5 +1,4 @@
 import { throwCustomError } from '../errors/throwErrors';
-
 import * as teacherRepository from '../repositories/teachersRepository';
 
 export async function checksTheTeacher(teacherId: number) {

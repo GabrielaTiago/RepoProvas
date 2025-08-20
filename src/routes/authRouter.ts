@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import { signIn, signUp } from '../controllers/authController';
 import { errorHandler } from '../middlewares/errorHandlerMiddleware';
 import { validateShemas } from '../middlewares/validateSchemasMiddleware';

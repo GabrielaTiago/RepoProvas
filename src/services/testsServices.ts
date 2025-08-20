@@ -1,10 +1,9 @@
-import { ITestData } from '../interfaces/testsInterface';
-
-import * as repositoryTests from '../repositories/testsRepository';
 import * as categoryService from './categoriesServices';
 import * as disciplineService from './disciplinesServices';
-import * as teacherService from './teachersServices';
 import * as teacherDisciplinesService from './teacherDisciplinesServices';
+import * as teacherService from './teachersServices';
+import { ITestData } from '../interfaces/testsInterface';
+import * as repositoryTests from '../repositories/testsRepository';
 
 export async function insertTest(test: ITestData) {
     await categoryService.checksTheCategory(test.categoryId);

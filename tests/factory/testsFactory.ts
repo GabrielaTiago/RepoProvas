@@ -6,7 +6,7 @@ export async function __createValidTests() {
         pdfUrl: faker.internet.url(),
         categoryId: 1,
         disciplineId: 1,
-        teacherId: 2
+        teacherId: 2,
     };
     return test;
 }

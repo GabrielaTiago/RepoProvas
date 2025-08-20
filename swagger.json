@@ -21,9 +21,7 @@
     "paths": {
         "/": {
             "post": {
-                "tags": [
-                    "auth"
-                ],
+                "tags": ["auth"],
                 "summary": "Login",
                 "description": "This route is responsible for login into the app",
                 "requestBody": {
@@ -58,9 +56,7 @@
         },
         "/sign-up": {
             "post": {
-                "tags": [
-                    "auth"
-                ],
+                "tags": ["auth"],
                 "summary": "Account creation",
                 "description": "This route is responsible for registering a new user",
                 "requestBody": {
@@ -112,9 +108,7 @@
             "post": {
                 "summary": "Register tests",
                 "description": "This route will be responsible for registering a new test",
-                "tags": [
-                    "Tests"
-                ],
+                "tags": ["Tests"],
                 "security": [
                     {
                         "bearerAuth": []
@@ -173,9 +167,7 @@
             "get": {
                 "summary": "Filters tests by discipline",
                 "description": "This route will be responsible for find tests filtering by discipline",
-                "tags": [
-                    "Tests"
-                ],
+                "tags": ["Tests"],
                 "security": [
                     {
                         "bearerAuth": []
@@ -205,9 +197,7 @@
             "get": {
                 "summary": "Filters tests by teacher",
                 "description": "This route will be responsible for find tests filtering by teacher",
-                "tags": [
-                    "Tests"
-                ],
+                "tags": ["Tests"],
                 "security": [
                     {
                         "bearerAuth": []

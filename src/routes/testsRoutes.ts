@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { validateShemas } from '../middlewares/validateSchemasMiddleware';
 
 import * as testsController from '../controllers/testsController';
+import { validateShemas } from '../middlewares/validateSchemasMiddleware';
 
 const testsRouter = Router();
 

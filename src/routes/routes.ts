@@ -1,7 +1,8 @@
 import { Router } from 'express';
-import { validatetoken } from '../middlewares/validateTokenMiddleware';
+
 import authRouter from './authRouter';
 import testsRouter from './testsRoutes';
+import { validatetoken } from '../middlewares/validateTokenMiddleware';
 
 const router = Router();
 

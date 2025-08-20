@@ -22,7 +22,7 @@ describe('/tests', () => {
             const sessionData = await agent.post('/').send(session);
             const { token } = sessionData.body;
             const newTest = await __createValidTests();
-            console.log(newTest)
+            console.log(newTest);
             const result = await agent
                 .post('/tests')
                 .set({ Authorization: `Bearer ${token}` })

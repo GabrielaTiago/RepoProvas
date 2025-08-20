@@ -1,11 +1,10 @@
-import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
 
 import { throwCustomError } from '../errors/throwErrors';
-import { cryptsPassword, validatePassword } from '../utils/cryptographyData';
-
 import * as authInterface from '../interfaces/authIntefaces';
 import * as authRepository from '../repositories/authRepository';
+import { cryptsPassword, validatePassword } from '../utils/cryptographyData';
 
 dotenv.config();
 
@@ -18,11 +17,7 @@ export async function login(user: authInterface.ISignInData) {
         throw throwCustomError('forbidden', 'Incorrect email and/or password');
     }
 
-    const token = jwt.sign(
-        { id: userData.id },
-        process.env.JWT_SECRET as string,
-        { expiresIn: '1d' }
-    );
+    const token = jwt.sign({ id: userData.id }, process.env.JWT_SECRET as string, { expiresIn: '1d' });
 
     return token;
 }

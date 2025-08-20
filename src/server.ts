@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+
 import { server } from '.';
 
 dotenv.config();

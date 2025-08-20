@@ -1,5 +1,4 @@
 import { throwCustomError } from '../errors/throwErrors';
-
 import * as disciplineRepository from '../repositories/disciplinesRepository';
 
 export async function checksTheDiscipline(disciplineId: number) {

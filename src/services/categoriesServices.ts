@@ -1,5 +1,4 @@
 import { throwCustomError } from '../errors/throwErrors';
-
 import * as categoryRepository from '../repositories/categoriesRepository';
 
 export async function checksTheCategory(categoryId: number) {
@@ -8,6 +7,6 @@ export async function checksTheCategory(categoryId: number) {
     if (!category) {
         throw throwCustomError('not_found', "This category doesn't exits");
     }
-    
+
     return category;
 }
