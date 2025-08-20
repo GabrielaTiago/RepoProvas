@@ -1,12 +1,8 @@
-import dotenv from 'dotenv';
-import jwt from 'jsonwebtoken';
-
 import { throwCustomError } from '../errors/throwCustomError';
 import { ISignInData, ISignUpData } from '../interfaces/authInterfaces';
 import * as userRepository from '../repositories/userRepository';
 import { cryptsPassword, validatePassword } from '../utils/cryptographyData';
-
-dotenv.config();
+import { generateToken } from '../utils/token';
 
 export async function login(userData: ISignInData) {
     const user = await userRepository.findUserByEmail(userData.email);
@@ -14,8 +10,7 @@ export async function login(userData: ISignInData) {
     const validPassword = user?.password as string;
     if (!validEmail || !validatePassword(userData.password, validPassword))
         throw throwCustomError('forbidden', 'Incorrect email and/or password');
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string, { expiresIn: '1d' });
-    return token;
+    return generateToken(user.id);
 }
 
 export async function createUser(userData: ISignUpData) {
