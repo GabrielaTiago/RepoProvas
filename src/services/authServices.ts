@@ -1,36 +1,26 @@
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 
-import { throwCustomError } from '../errors/throwErrors';
-import * as authInterface from '../interfaces/authIntefaces';
-import * as authRepository from '../repositories/authRepository';
+import { throwCustomError } from '../errors/throwCustomError';
+import { ISignInData, ISignUpData } from '../interfaces/authInterfaces';
+import * as userRepository from '../repositories/userRepository';
 import { cryptsPassword, validatePassword } from '../utils/cryptographyData';
 
 dotenv.config();
 
-export async function login(user: authInterface.ISignInData) {
-    const userData = await authRepository.findUserEmail(user.email);
-    const validEmail = userData?.email;
-    const validPassword = userData?.password as string;
-
-    if (!validEmail || !validatePassword(user.password, validPassword)) {
+export async function login(userData: ISignInData) {
+    const user = await userRepository.findUserByEmail(userData.email);
+    const validEmail = user?.email;
+    const validPassword = user?.password as string;
+    if (!validEmail || !validatePassword(userData.password, validPassword))
         throw throwCustomError('forbidden', 'Incorrect email and/or password');
-    }
-
-    const token = jwt.sign({ id: userData.id }, process.env.JWT_SECRET as string, { expiresIn: '1d' });
-
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string, { expiresIn: '1d' });
     return token;
 }
 
-export async function createUser(user: authInterface.ISignUpData) {
-    const email = await authRepository.findUserEmail(user.email);
-
-    if (email) {
-        throw throwCustomError('conflict', 'This e-mail has already been registered');
-    }
-    if (user.password !== user.confirmPassword) {
-        throw throwCustomError('unprocessable_entity', 'The passwords do not match');
-    }
-    const encryptedPassword = cryptsPassword(user.password);
-    await authRepository.createUser(user.email, encryptedPassword);
+export async function createUser(userData: ISignUpData) {
+    const user = await userRepository.findUserByEmail(userData.email);
+    if (user) throw throwCustomError('conflict', 'This email has already been registered');
+    const encryptedPassword = cryptsPassword(userData.password);
+    await userRepository.createUser(userData.email, encryptedPassword);
 }
