@@ -1,12 +1,7 @@
-import { ErrorsTypes } from '../types/serverErrorTypes';
+import { ICustomError, ServerErrorsType } from './errors';
 
-interface CustomError extends Error {
-    type: ErrorsTypes;
-    message: string;
-}
-
-export function throwCustomError(type: ErrorsTypes, message: string): object {
-    const error = new Error() as CustomError;
+export function throwCustomError(type: ServerErrorsType, message: string): object {
+    const error = new Error() as ICustomError;
     error.type = type;
     error.message = message;
     throw error;
