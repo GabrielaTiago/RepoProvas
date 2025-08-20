@@ -1,14 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { IServerErrors } from '../interfaces/serverErrorsInterface';
-import { ERRORS } from '../types/serverErrorTypes';
+import { ICustomError, SERVER_ERRORS } from '../errors/errors';
 
-export function errorHandler(err: IServerErrors, _req: Request, res: Response, _next: NextFunction) {
-    const statusCode = ERRORS[err.type];
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function errorHandler(err: ICustomError, _req: Request, res: Response, _next: NextFunction) {
+    const { type, message } = err;
+    const statusCode = SERVER_ERRORS[type];
 
-    if (statusCode) {
-        return res.status(statusCode).send(err.err_message);
-    }
+    if (statusCode) return res.status(statusCode).send({ message });
 
-    res.status(500).send(err.message);
+    return res.status(SERVER_ERRORS.internal_server_error).send(err.message);
 }
