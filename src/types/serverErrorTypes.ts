@@ -5,6 +5,7 @@ export const ERRORS = {
     not_found: 404,
     conflict: 409,
     unprocessable_entity: 422,
+    internal_server_error: 500,
 };
 
 export type ErrorsTypes = keyof typeof ERRORS;
