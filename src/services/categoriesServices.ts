@@ -1,4 +1,4 @@
-import { throwCustomError } from '../errors/throwErrors';
+import { throwCustomError } from '../errors/throwCustomError';
 import * as categoryRepository from '../repositories/categoriesRepository';
 
 export async function checksTheCategory(categoryId: number) {

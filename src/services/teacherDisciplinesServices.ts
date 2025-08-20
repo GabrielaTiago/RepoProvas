@@ -1,4 +1,4 @@
-import { throwCustomError } from '../errors/throwErrors';
+import { throwCustomError } from '../errors/throwCustomError';
 import * as teacherDisciplineRepository from '../repositories/teacherDisciplinesRepository';
 
 export async function checksTheDisciplineAndTheTeacher(teacherId: number, disciplineId: number) {
