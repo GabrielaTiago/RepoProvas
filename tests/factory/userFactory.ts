@@ -9,7 +9,7 @@ export async function __createEmail() {
     return email;
 }
 
-export async function __createPassword() {
+export function __createPassword() {
     const password: string = generator.generate({
         length: 10,
         numbers: true,
@@ -42,4 +42,22 @@ export async function __createSession(user: ISignInData) {
     };
 
     return userSession;
+}
+
+export function __createAuthData() {
+    const password = __createPassword();
+    return {
+        email: faker.internet.email(),
+        password: password,
+        confirmPassword: password,
+    };
+}
+
+export function __createMockUser(email?: string, password?: string) {
+    return {
+        id: faker.number.int({ min: 1, max: 1000 }),
+        email: email || faker.internet.email(),
+        password: password || __createPassword(),
+        createdAt: faker.date.recent(),
+    };
 }
