@@ -11,15 +11,11 @@
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
         "format": "prettier --write .",
-        "test": "dotenv -e .env.test prisma migrate dev && dotenv -e .env.test prisma db seed  && dotenv -e .env.test -- jest -i --detectOpenHandles --coverage",
-        "test:seed": "dotenv -e .env.test -- npx prisma db seed"
+        "test": "vitest --run --reporter=verbose tests/unit tests/integration --coverage"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "prisma": {
-        "seed": "ts-node prisma/seed.ts"
-    },
     "devDependencies": {
         "@eslint/js": "^9.33.0",
         "@faker-js/faker": "^9.9.0",
