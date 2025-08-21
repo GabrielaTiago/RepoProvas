@@ -1,12 +1,16 @@
 {
     "compilerOptions": {
-        "target": "es2016",
-        "module": "commonjs",
-        "outDir": "dist",
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        "skipLibCheck": true,
+        "target": "ES2022",
+        "module": "NodeNext",
+        "lib": ["es6"],
         "strict": true,
-        "resolveJsonModule": true
-    }
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "baseUrl": "."
+    },
+    "include": ["src/**/*.ts", "tests/**/*.ts"],
+    "exclude": ["node_modules", "dist"]
 }
