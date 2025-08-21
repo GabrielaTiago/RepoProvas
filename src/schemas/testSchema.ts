@@ -18,4 +18,8 @@ export const testSchema = joi.object({
         'number.base': 'Discipline ID must be a number',
         'any.required': 'Discipline ID is required',
     }),
+    teacherId: joi.number().integer().strict().required().messages({
+        'number.base': 'Teacher ID must be a number',
+        'any.required': 'Teacher ID is required',
+    }),
 });
