@@ -4,13 +4,16 @@
     "description": "",
     "main": "server.ts",
     "scripts": {
-        "build": "tsc && npx prisma generate && npx prisma migrate deploy",
-        "dev": "NODE_ENV=dev nodemon ./src/server.ts",
-        "start": "node ./dist/src/server.js",
+        "build": "tsc",
+        "prisma": "npx prisma generate && npx prisma migrate deploy",
+        "start": "node ./dist/server.js",
+        "dev": "nodemon ./src/server.ts",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
         "format": "prettier --write .",
-        "test": "dotenv -e .env.test prisma migrate dev && dotenv -e .env.test prisma db seed  && dotenv -e .env.test -- jest -i --detectOpenHandles --coverage"
+        "test": "dotenv -e .env.test prisma migrate dev && dotenv -e .env.test prisma db seed  && dotenv -e .env.test -- jest -i --detectOpenHandles --coverage",
+        "test:seed": "dotenv -e .env.test -- npx prisma db seed"
+      
     },
     "keywords": [],
     "author": "",
