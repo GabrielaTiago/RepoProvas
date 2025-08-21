@@ -19,7 +19,7 @@ describe('/tests', () => {
             await agent.post('/sign-up').send(user);
             const userSession = { email: user.email, password: user.password };
             const session = await __createSession(userSession);
-            const sessionData = await agent.post('/').send(session);
+            const sessionData = await agent.post('/login').send(session);
             const { token } = sessionData.body;
             const newTest = await __createValidTests();
             console.log(newTest);
@@ -38,9 +38,9 @@ describe('/tests', () => {
             await agent.post('/sign-up').send(user);
             const userSession = { email: user.email, password: user.password };
             const session = await __createSession(userSession);
-            const sessionData = await agent.post('/').send(session);
+            const sessionData = await agent.post('/login').send(session);
             const { token } = sessionData.body;
-            const result = await agent.get('/tests/diciplines').set({ Authorization: `Bearer ${token}` });
+            const result = await agent.get('/tests/discipline').set({ Authorization: `Bearer ${token}` });
             expect(result.status).toEqual(200);
             expect(Array.isArray(result.body)).toBe(true);
         });
@@ -52,7 +52,7 @@ describe('/tests', () => {
             await agent.post('/sign-up').send(user);
             const userSession = { email: user.email, password: user.password };
             const session = await __createSession(userSession);
-            const sessionData = await agent.post('/').send(session);
+            const sessionData = await agent.post('/login').send(session);
             const { token } = sessionData.body;
             const result = await agent.get('/tests/teacher').set({ Authorization: `Bearer ${token}` });
             expect(result.status).toEqual(200);

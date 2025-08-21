@@ -40,7 +40,7 @@ describe('Tests in the route /', () => {
         await agent.post('/sign-up').send(user);
         const userSession = { email: user.email, password: user.password };
         const session = await __createSession(userSession);
-        const result = await agent.post('/').send(session);
+        const result = await agent.post('/login').send(session);
         expect(result.status).toEqual(200);
         expect(result.body).not.toBeNull();
         expect(result.body).toHaveProperty('token');
@@ -52,7 +52,7 @@ describe('Tests in the route /', () => {
         const wrongPassword = await __createPassword();
         const userSession = { email: user.email, password: wrongPassword };
         const session = await __createSession(userSession);
-        const result = await agent.post('/').send(session);
+        const result = await agent.post('/login').send(session);
         expect(result.status).toEqual(403);
         expect(result.body).not.toBeNull();
     });
@@ -63,7 +63,7 @@ describe('Tests in the route /', () => {
         const wrongEmail = await __createEmail();
         const userSession = { email: wrongEmail, password: user.password };
         const session = await __createSession(userSession);
-        const result = await agent.post('/').send(session);
+        const result = await agent.post('/login').send(session);
         expect(result.status).toEqual(403);
         expect(result.body).not.toBeNull();
     });
