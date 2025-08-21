@@ -1,0 +1,17 @@
+node_modules
+dist
+build
+coverage/
+.nyc_output
+*.log
+npm-debug.log*
+.env*
+.git
+.gitignore
+.dockerignore
+Dockerfile*
+docker-compose*.yml
+.vscode/
+.idea/
+.DS_Store
+README.md
