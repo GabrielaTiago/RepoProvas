@@ -1,0 +1,35 @@
+services:
+    repoprovas-test-db:
+        image: postgres:15
+        container_name: repoprovas-test-db
+        restart: 'no'
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
+        ports:
+            - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+        volumes:
+            - pgdata_test:/var/lib/postgresql/data
+        healthcheck:
+            test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER}']
+            interval: 5s
+            timeout: 5s
+            retries: 5
+
+    repoprovas-test-api:
+        build:
+            context: .
+            dockerfile: Dockerfile.test
+        container_name: repoprovas-test-api
+        restart: 'no'
+        ports:
+            - '${PORT}:${PORT}'
+        depends_on:
+            repoprovas-test-db:
+                condition: service_healthy
+        env_file:
+            - .env.test
+
+volumes:
+    pgdata_test:
