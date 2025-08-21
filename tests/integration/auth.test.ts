@@ -1,16 +1,7 @@
-import { afterAll, beforeEach, describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
-import { database } from '../../src/database/postgres';
 import { agent } from '../factory/agentFactory';
 import { __createEmail, __createPassword, __createSession, __createUser } from '../factory/userFactory';
-
-beforeEach(async () => {
-    await database.$executeRaw`TRUNCATE TABLE users CASCADE`;
-});
-
-afterAll(async () => {
-    await database.$disconnect();
-});
 
 describe('Tests in the route /sign-up', () => {
     it('Should be able to register with valdid credentials', async () => {

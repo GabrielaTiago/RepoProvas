@@ -1,18 +1,8 @@
-import { afterAll, beforeEach, describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
-import { database } from '../../src/database/postgres';
 import { agent } from '../factory/agentFactory';
 import { __createValidTests } from '../factory/testsFactory';
 import { __createSession, __createUser } from '../factory/userFactory';
-
-beforeEach(async () => {
-    await database.$executeRaw`TRUNCATE TABLE "users" RESTART IDENTITY CASCADE`;
-    await database.$executeRaw`TRUNCATE TABLE "tests" RESTART IDENTITY CASCADE`;
-});
-
-afterAll(async () => {
-    await database.$disconnect();
-});
 
 describe('/tests', () => {
     describe('[POST] /tests', () => {
