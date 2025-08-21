@@ -6,7 +6,7 @@ import { ITestData } from '../interfaces/testsInterface';
 import * as repositoryTests from '../repositories/testsRepository';
 
 export async function insertTest(test: ITestData) {
-    await categoryService.checksTheCategory(test.categoryId);
+    await categoryService.findCategoryById(test.categoryId);
     await disciplineService.checksTheDiscipline(test.disciplineId);
     await teacherService.checksTheTeacher(test.teacherId);
 
