@@ -1,11 +1,8 @@
 import { database } from '../database/postgres';
 
-export async function checksTheDisciplineAndTheTeacher(teacherId: number, disciplineId: number) {
-    const disciplineTeacher = database.teacherDiscipline.findFirst({
-        where: {
-            teacherId,
-            disciplineId,
-        },
+export async function findByTeacherAndDisciplineIds(teacherId: number, disciplineId: number) {
+    const teacherDiscipline = await database.teacherDiscipline.findFirst({
+        where: { teacherId, disciplineId },
     });
-    return disciplineTeacher;
+    return teacherDiscipline;
 }
