@@ -3,12 +3,13 @@ import swaggerUi from 'swagger-ui-express';
 
 import authRouter from './authRouter';
 import testsRouter from './testsRoutes';
-import swaggerDocs from '../../swagger.json';
+import swaggerSpec from '../config/swagger';
 import { validateToken } from '../middlewares/validateTokenMiddleware';
+
 
 const router = Router();
 
-router.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+router.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 router.use(authRouter);
 router.use(validateToken);
 router.use(testsRouter);
