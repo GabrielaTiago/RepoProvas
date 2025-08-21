@@ -5,7 +5,7 @@ export async function __createValidTests() {
         name: faker.lorem.words(3),
         pdfUrl: faker.internet.url(),
         categoryId: 1,
-        disciplineId: 1,
+        disciplineId: 4,
         teacherId: 2,
     };
     return test;
