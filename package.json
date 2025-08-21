@@ -11,7 +11,9 @@
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
         "format": "prettier --write .",
-        "test": "vitest --run --reporter=verbose tests/unit tests/integration --coverage"
+        "test": "vitest --run --reporter=verbose tests/unit tests/integration --coverage",
+        "test:unit": "vitest --run --reporter=verbose tests/unit",
+        "test:integration": "vitest --run --reporter=verbose tests/integration"
     },
     "keywords": [],
     "author": "",
