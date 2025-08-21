@@ -16,7 +16,18 @@ export default defineConfig({
         coverage: {
             provider: 'v8',
             reporter: ['text', 'json', 'html'],
-            exclude: ['node_modules/', 'dist/', '**/*.d.ts', '**/*.config.*', 'prisma/', 'coverage/'],
+            exclude: [
+                'node_modules/',
+                'dist/',
+                'coverage/',
+                'prisma/',
+                'tests/',
+                '**/*.d.ts',
+                '**/*.config.*',
+                'src/config/',
+                'src/interfaces/',
+                'src/types/',
+            ],
         },
     },
 });
