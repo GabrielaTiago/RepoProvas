@@ -24,6 +24,13 @@ export const signUpSchema = joi.object({
 });
 
 export const signInSchema = joi.object({
-    email: joi.string().trim().email().required(),
-    password: joi.string().trim().min(8).required(),
+    email: joi.string().trim().email().required().messages({
+        'string.email': 'Invalid email format',
+        'string.empty': 'Email can not be empty',
+        'any.required': 'Email is required',
+    }),
+    password: joi.string().trim().min(8).required().messages({
+        'string.empty': 'Password can not be empty',
+        'any.required': 'Password is required',
+    }),
 });
