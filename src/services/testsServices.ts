@@ -7,10 +7,10 @@ import * as repositoryTests from '../repositories/testsRepository';
 
 export async function insertTest(test: ITestData) {
     await categoryService.findCategoryById(test.categoryId);
-    await disciplineService.checksTheDiscipline(test.disciplineId);
-    await teacherService.checksTheTeacher(test.teacherId);
+    await disciplineService.findDisciplineById(test.disciplineId);
+    await teacherService.findTeacherById(test.teacherId);
 
-    const teacherDiscipline = await teacherDisciplinesService.checksTheDisciplineAndTheTeacher(test.teacherId, test.disciplineId);
+    const teacherDiscipline = await teacherDisciplinesService.findByTeacherAndDisciplineIds(test.teacherId, test.disciplineId);
 
     const testData = {
         name: test.name,
