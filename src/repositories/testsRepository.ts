@@ -45,12 +45,10 @@ export async function getTestsByDiscipline(name: string = '') {
 export async function getTestsByTeacher(name: string = '') {
     const testsTeachers = await database.teacher.findMany({
         distinct: ['name'],
+        where: name ? { name } : undefined,
         select: {
             id: true,
             name: true,
-            ...(name && {
-                where: { name },
-            }),
             TeacherDiscipline: {
                 select: {
                     Discipline: {
