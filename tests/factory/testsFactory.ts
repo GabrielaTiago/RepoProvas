@@ -54,3 +54,30 @@ export function __createMockTestsByDiscipline(disciplineName?: string) {
         ],
     };
 }
+
+export function __createMockTestsByTeacher(teacherName?: string) {
+    return {
+        id: faker.number.int({ min: 1, max: 100 }),
+        name: teacherName || faker.lorem.words(3),
+        TeacherDiscipline: [
+            {
+                Discipline: {
+                    id: faker.number.int({ min: 1, max: 100 }),
+                    name: faker.lorem.words(3)
+                },
+                Test: [
+                    {
+                        id: faker.number.int({ min: 1, max: 100 }),
+                        name: faker.lorem.words(3),
+                        pdfUrl: faker.internet.url(),
+                        createdAt: faker.date.recent(),
+                        Category: {
+                            id: faker.number.int({ min: 1, max: 100 }),
+                            name: faker.lorem.words(2)
+                        }
+                    }
+                ]
+            }
+        ]
+    };
+}
