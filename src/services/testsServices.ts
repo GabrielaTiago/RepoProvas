@@ -20,12 +20,12 @@ export async function insertTest(test: ITestData) {
     return await repositoryTests.insertTest(testData);
 }
 
-export async function getTestsByDiscipline() {
-    const tests = await repositoryTests.getTestsByDiscipline();
+export async function getTestsByDiscipline(name: string) {
+    const tests = await repositoryTests.getTestsByDiscipline(name);
     return tests;
 }
 
-export async function getTestsByTeacher() {
-    const tests = await repositoryTests.getTestsByTeacher();
+export async function getTestsByTeacher(name: string) {
+    const tests = await repositoryTests.getTestsByTeacher(name);
     return tests;
 }
