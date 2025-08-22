@@ -11,16 +11,13 @@ export async function insertTest(test: ITestData) {
     await teacherService.findTeacherById(test.teacherId);
 
     const teacherDiscipline = await teacherDisciplinesService.findByTeacherAndDisciplineIds(test.teacherId, test.disciplineId);
-
     const testData = {
         name: test.name,
         pdfUrl: test.pdfUrl,
         categoryId: test.categoryId,
-        teacherDisciplineId: Number(teacherDiscipline.id),
+        teacherDisciplineId: teacherDiscipline.id,
     };
-
-    const newTest = await repositoryTests.insertTest(testData);
-    return newTest;
+    return await repositoryTests.insertTest(testData);
 }
 
 export async function showTestsByDiscipline() {
