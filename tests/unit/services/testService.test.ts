@@ -10,7 +10,7 @@ import { __createMockCategory } from '../../factory/categoryFactory';
 import { __createMockDiscipline } from '../../factory/disciplineFactory';
 import { __createMockTeacherDiscipline } from '../../factory/teacherDisciplineFactory';
 import { __createMockTeacher } from '../../factory/teacherFactory';
-import { __createMockTest } from '../../factory/testsFactory';
+import { __createMockTest, __createMockTestsByDiscipline } from '../../factory/testsFactory';
 
 vi.mock('../../../src/repositories/testsRepository');
 vi.mock('../../../src/services/categoriesServices');
@@ -125,6 +125,36 @@ describe('Tests Service', () => {
             expect(teacherService.findTeacherById).toHaveBeenCalledWith(teacherId);
             expect(teacherDisciplineService.findByTeacherAndDisciplineIds).toHaveBeenCalledWith(teacherId, disciplineId);
             expect(testRepository.insertTest).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('getTestsByDiscipline', () => {
+        it('should return tests grouped by discipline', async () => {
+            const mockTestsByDiscipline = [__createMockTestsByDiscipline(), __createMockTestsByDiscipline()];
+
+            vi.spyOn(testRepository, 'getTestsByDiscipline').mockResolvedValue(mockTestsByDiscipline);
+
+            const result = await testService.getTestsByDiscipline('');
+
+            expect(testRepository.getTestsByDiscipline).toHaveBeenCalledWith('');
+            expect(result).toEqual(mockTestsByDiscipline);
+        });
+
+        it('should return tests filtered by discipline name', async () => {
+            const disciplineName = 'React';
+            const mockFilteredTests = [__createMockTestsByDiscipline(disciplineName), __createMockTestsByDiscipline(disciplineName)];
+
+            vi.spyOn(testRepository, 'getTestsByDiscipline').mockResolvedValue(mockFilteredTests);
+
+            const result = await testService.getTestsByDiscipline(disciplineName);
+
+            expect(testRepository.getTestsByDiscipline).toHaveBeenCalledWith(disciplineName);
+            expect(result).toEqual(mockFilteredTests);
+            expect(result).toBeInstanceOf(Array);
+            result.forEach((test) => {
+                expect(test.Discipline).toHaveLength(1);
+                expect(test.Discipline[0].name).toBe(disciplineName);
+            });
         });
     });
 });
