@@ -201,6 +201,6 @@ testsRouter.get('/tests/discipline', testsController.getTestsByDiscipline);
  *             example:
  *               message: "Invalid or missing token"
  */
-testsRouter.get('/tests/teacher', testsController.getTestByTeacher);
+testsRouter.get('/tests/teacher', testsController.getTestsByTeacher);
 
 export default testsRouter;

@@ -12,11 +12,11 @@ export async function insertTest(req: Request, res: Response) {
 }
 
 export async function getTestsByDiscipline(req: Request, res: Response) {
-    const testsByDiscipline = await testsServices.showTestsByDiscipline();
+    const testsByDiscipline = await testsServices.getTestsByDiscipline();
     return res.status(200).send(testsByDiscipline);
 }
 
-export async function getTestByTeacher(req: Request, res: Response) {
-    const testsByteacher = await testsServices.showTestsByTeacher();
-    return res.status(200).send(testsByteacher);
+export async function getTestsByTeacher(req: Request, res: Response) {
+    const testsByTeacher = await testsServices.getTestsByTeacher();
+    return res.status(200).send(testsByTeacher);
 }
