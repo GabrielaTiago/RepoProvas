@@ -5,7 +5,7 @@ export async function insertTest(testData: TInsertTest) {
     return await database.test.create({ data: testData });
 }
 
-export async function getTestsByDiscipline() {
+export async function getTestsByDiscipline(name: string = '') {
     const testsDisciplines = await database.term.findMany({
         distinct: ['id'],
         select: {
@@ -15,6 +15,9 @@ export async function getTestsByDiscipline() {
                 select: {
                     id: true,
                     name: true,
+                    ...(name && {
+                        where: { name },
+                    }),
                     TeacherDiscipline: {
                         select: {
                             Teacher: {
@@ -39,12 +42,15 @@ export async function getTestsByDiscipline() {
     return testsDisciplines;
 }
 
-export async function getTestsByTeacher() {
+export async function getTestsByTeacher(name: string = '') {
     const testsTeachers = await database.teacher.findMany({
         distinct: ['name'],
         select: {
             id: true,
             name: true,
+            ...(name && {
+                where: { name },
+            }),
             TeacherDiscipline: {
                 select: {
                     Discipline: {
