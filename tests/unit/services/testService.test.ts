@@ -10,7 +10,7 @@ import { __createMockCategory } from '../../factory/categoryFactory';
 import { __createMockDiscipline } from '../../factory/disciplineFactory';
 import { __createMockTeacherDiscipline } from '../../factory/teacherDisciplineFactory';
 import { __createMockTeacher } from '../../factory/teacherFactory';
-import { __createMockTest, __createMockTestsByDiscipline } from '../../factory/testsFactory';
+import { __createMockTest, __createMockTestsByDiscipline, __createMockTestsByTeacher } from '../../factory/testsFactory';
 
 vi.mock('../../../src/repositories/testsRepository');
 vi.mock('../../../src/services/categoriesServices');
@@ -154,6 +154,35 @@ describe('Tests Service', () => {
             result.forEach((test) => {
                 expect(test.Discipline).toHaveLength(1);
                 expect(test.Discipline[0].name).toBe(disciplineName);
+            });
+        });
+    });
+
+    describe('getTestsByTeacher', () => {
+        it('should return tests grouped by teacher', async () => {
+            const mockTestsByTeacher = [__createMockTestsByTeacher(), __createMockTestsByTeacher()];
+
+            vi.spyOn(testRepository, 'getTestsByTeacher').mockResolvedValue(mockTestsByTeacher);
+
+            const result = await testService.getTestsByTeacher('');
+
+            expect(testRepository.getTestsByTeacher).toHaveBeenCalledWith('');
+            expect(result).toEqual(mockTestsByTeacher);
+        });
+
+        it('should return tests filtered by teacher name', async () => {
+            const teacherName = 'John Doe';
+            const mockFilteredTests = [__createMockTestsByTeacher(teacherName), __createMockTestsByTeacher(teacherName)];
+
+            vi.spyOn(testRepository, 'getTestsByTeacher').mockResolvedValue(mockFilteredTests);
+
+            const result = await testService.getTestsByTeacher(teacherName);
+
+            expect(testRepository.getTestsByTeacher).toHaveBeenCalledWith(teacherName);
+            expect(result).toEqual(mockFilteredTests);
+            expect(result).toBeInstanceOf(Array);
+            result.forEach((test) => {
+                expect(test.name).toBe(teacherName);
             });
         });
     });
