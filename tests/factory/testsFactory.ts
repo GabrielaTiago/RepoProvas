@@ -25,3 +25,32 @@ export function __createMockTest(overrides?: Partial<Test>) {
         ...overrides,
     };
 }
+
+export function __createMockTestsByDiscipline(disciplineName?: string) {
+    return {
+        id: faker.number.int({ min: 1, max: 100 }),
+        number: faker.number.int({ min: 1, max: 100 }),
+        Discipline: [
+            {
+                id: faker.number.int({ min: 1, max: 100 }),
+                name: disciplineName || faker.lorem.words(3),
+                TeacherDiscipline: [
+                    {
+                        id: faker.number.int({ min: 1, max: 100 }),
+                        Teacher: {
+                            name: faker.lorem.words(3),
+                        },
+                        Test: [
+                            {
+                                id: faker.number.int({ min: 1, max: 100 }),
+                                name: faker.lorem.words(3),
+                                pdfUrl: faker.internet.url(),
+                                createdAt: faker.date.recent(),
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    };
+}
