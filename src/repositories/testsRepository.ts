@@ -1,27 +1,28 @@
 import { database } from '../database/postgres';
-import { TInsertTest } from '../types/testInsertTypes';
+import { TGetTestsByDiscipline, TGetTestsByTeacher, TInsertTest } from '../types/testTypes';
 
 export async function insertTest(testData: TInsertTest) {
     return await database.test.create({ data: testData });
 }
 
-export async function getTestsByDiscipline(name: string = '') {
-    const testsDisciplines = await database.term.findMany({
+export async function getTestsByDiscipline(name: string = ''): Promise<TGetTestsByDiscipline[]> {
+    return await database.term.findMany({
         distinct: ['id'],
         select: {
             id: true,
             number: true,
             Discipline: {
+                where: {
+                    name: { contains: name, mode: 'insensitive' as const },
+                },
                 select: {
                     id: true,
                     name: true,
-                    ...(name && {
-                        where: { name },
-                    }),
                     TeacherDiscipline: {
                         select: {
                             Teacher: {
                                 select: {
+                                    id: true,
                                     name: true,
                                 },
                             },
@@ -30,7 +31,6 @@ export async function getTestsByDiscipline(name: string = '') {
                                     id: true,
                                     name: true,
                                     pdfUrl: true,
-                                    createdAt: true,
                                 },
                             },
                         },
@@ -39,13 +39,13 @@ export async function getTestsByDiscipline(name: string = '') {
             },
         },
     });
-    return testsDisciplines;
 }
 
-export async function getTestsByTeacher(name: string = '') {
-    const testsTeachers = await database.teacher.findMany({
-        distinct: ['name'],
-        where: name ? { name } : undefined,
+export async function getTestsByTeacher(name: string = ''): Promise<TGetTestsByTeacher[]> {
+    const testsTeachers: TGetTestsByTeacher[] = await database.teacher.findMany({
+        where: {
+            name: { contains: name, mode: 'insensitive' as const },
+        },
         select: {
             id: true,
             name: true,
@@ -55,6 +55,12 @@ export async function getTestsByTeacher(name: string = '') {
                         select: {
                             id: true,
                             name: true,
+                            term: {
+                                select: {
+                                    id: true,
+                                    number: true,
+                                },
+                            },
                         },
                     },
                     Test: {
@@ -62,13 +68,6 @@ export async function getTestsByTeacher(name: string = '') {
                             id: true,
                             name: true,
                             pdfUrl: true,
-                            createdAt: true,
-                            Category: {
-                                select: {
-                                    id: true,
-                                    name: true,
-                                },
-                            },
                         },
                     },
                 },
