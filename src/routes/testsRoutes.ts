@@ -58,6 +58,14 @@ testsRouter.post('/tests', validateSchema(schemas.test), testsController.insertT
  *     tags: [Tests]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - name: name
+ *         in: query
+ *         description: Discipline name
+ *         required: false
+ *         schema:
+ *           type: string
+ *           example: "HTML e CSS"
  *     responses:
  *       200:
  *         description: Tests retrieved successfully
@@ -68,60 +76,44 @@ testsRouter.post('/tests', validateSchema(schemas.test), testsController.insertT
  *               items:
  *                 type: object
  *                 properties:
- *                   term:
- *                     type: object
- *                     properties:
- *                       number:
- *                         type: integer
- *                         description: Term number
- *                       disciplines:
- *                         type: array
- *                         items:
- *                           type: object
- *                           properties:
- *                             name:
- *                               type: string
- *                               description: Discipline name
- *                             categories:
- *                               type: array
- *                               items:
+ *                   id:
+ *                     type: integer
+ *                     description: Term ID
+ *                   number:
+ *                     type: integer
+ *                     description: Term number
+ *                   Discipline:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: integer
+ *                         name:
+ *                           type: string
+ *                         TeacherDiscipline:
+ *                           type: array
+ *                           items:
+ *                             type: object
+ *                             properties:
+ *                               Teacher:
  *                                 type: object
  *                                 properties:
+ *                                   id:
+ *                                     type: integer
  *                                   name:
  *                                     type: string
- *                                     description: Category name (P1, P2, P3, etc.)
- *                                   tests:
- *                                     type: array
- *                                     items:
- *                                       type: object
- *                                       properties:
- *                                         id:
- *                                           type: integer
- *                                         name:
- *                                           type: string
- *                                         pdfUrl:
- *                                           type: string
- *                                         teacher:
- *                                           type: string
- *                                           description: Teacher name
- *             example:
- *               - term:
- *                   number: 1
- *                   disciplines:
- *                     - name: "Calculus"
- *                       categories:
- *                         - name: "P1"
- *                           tests:
- *                             - id: 1
- *                               name: "Calculus P1 2023"
- *                               pdfUrl: "https://example.com/exams/calculus-p1-2023.pdf"
- *                               teacher: "Dr. Smith"
- *                         - name: "P2"
- *                           tests:
- *                             - id: 2
- *                               name: "Calculus P2 2023"
- *                               pdfUrl: "https://example.com/exams/calculus-p2-2023.pdf"
- *                               teacher: "Dr. Smith"
+ *                               Test:
+ *                                 type: array
+ *                                 items:
+ *                                   type: object
+ *                                   properties:
+ *                                     id:
+ *                                       type: integer
+ *                                     name:
+ *                                       type: string
+ *                                     pdfUrl:
+ *                                       type: string
  *       401:
  *         description: Unauthorized - Invalid or missing token
  *         content:
@@ -142,6 +134,14 @@ testsRouter.get('/tests/discipline', testsController.getTestsByDiscipline);
  *     tags: [Tests]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - name: name
+ *         in: query
+ *         description: Teacher name
+ *         required: false
+ *         schema:
+ *           type: string
+ *           example: "Diego"
  *     responses:
  *       200:
  *         description: Tests retrieved successfully
@@ -152,18 +152,30 @@ testsRouter.get('/tests/discipline', testsController.getTestsByDiscipline);
  *               items:
  *                 type: object
  *                 properties:
- *                   teacher:
+ *                   id:
+ *                     type: integer
+ *                   name:
  *                     type: string
- *                     description: Teacher name
- *                   categories:
+ *                   TeacherDiscipline:
  *                     type: array
  *                     items:
  *                       type: object
  *                       properties:
- *                         name:
- *                           type: string
- *                           description: Category name (P1, P2, P3, etc.)
- *                         tests:
+ *                         Discipline:
+ *                           type: object
+ *                           properties:
+ *                             id:
+ *                               type: integer
+ *                             name:
+ *                               type: string
+ *                             term:
+ *                               type: object
+ *                               properties:
+ *                                 id:
+ *                                   type: integer
+ *                                 number:
+ *                                   type: integer
+ *                         Test:
  *                           type: array
  *                           items:
  *                             type: object
@@ -174,24 +186,6 @@ testsRouter.get('/tests/discipline', testsController.getTestsByDiscipline);
  *                                 type: string
  *                               pdfUrl:
  *                                 type: string
- *                               discipline:
- *                                 type: string
- *                                 description: Discipline name
- *             example:
- *               - teacher: "Dr. Smith"
- *                 categories:
- *                   - name: "P1"
- *                     tests:
- *                       - id: 1
- *                         name: "Calculus P1 2023"
- *                         pdfUrl: "https://example.com/exams/calculus-p1-2023.pdf"
- *                         discipline: "Calculus"
- *                   - name: "P2"
- *                     tests:
- *                       - id: 2
- *                         name: "Calculus P2 2023"
- *                         pdfUrl: "https://example.com/exams/calculus-p2-2023.pdf"
- *                         discipline: "Calculus"
  *       401:
  *         description: Unauthorized - Invalid or missing token
  *         content:
