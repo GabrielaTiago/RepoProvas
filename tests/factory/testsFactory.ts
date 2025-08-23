@@ -1,26 +1,16 @@
 import { faker } from '@faker-js/faker';
 import { Test } from '@prisma/client';
-
-export async function __createValidTests() {
-    const test = {
-        name: faker.lorem.words(3),
-        pdfUrl: faker.internet.url(),
-        categoryId: 1,
-        disciplineId: 4,
-        teacherId: 2,
-    };
-    return test;
-}
+import { database } from 'src/database/postgres';
 
 export function __createMockTest(overrides?: Partial<Test>) {
     return {
         id: faker.number.int({ min: 1, max: 100 }),
         name: faker.lorem.words(3),
         pdfUrl: faker.internet.url(),
-        categoryId: faker.number.int({ min: 1, max: 100 }),
-        disciplineId: faker.number.int({ min: 1, max: 100 }),
-        teacherId: faker.number.int({ min: 1, max: 100 }),
-        teacherDisciplineId: faker.number.int({ min: 1, max: 100 }),
+        categoryId: faker.number.int({ min: 1, max: 3 }),
+        disciplineId: faker.number.int({ min: 1, max: 3 }),
+        teacherId: 1,
+        teacherDisciplineId: faker.number.int({ min: 1, max: 3 }),
         createdAt: faker.date.recent(),
         ...overrides,
     };
@@ -63,7 +53,7 @@ export function __createMockTestsByTeacher(teacherName?: string) {
             {
                 Discipline: {
                     id: faker.number.int({ min: 1, max: 100 }),
-                    name: faker.lorem.words(3)
+                    name: faker.lorem.words(3),
                 },
                 Test: [
                     {
@@ -73,11 +63,23 @@ export function __createMockTestsByTeacher(teacherName?: string) {
                         createdAt: faker.date.recent(),
                         Category: {
                             id: faker.number.int({ min: 1, max: 100 }),
-                            name: faker.lorem.words(2)
-                        }
-                    }
-                ]
-            }
-        ]
+                            name: faker.lorem.words(2),
+                        },
+                    },
+                ],
+            },
+        ],
     };
+}
+
+export async function __createTest(teacherDisciplineId: number, categoryId: number) {
+    const test = __createMockTest({ teacherDisciplineId, categoryId });
+    return await database.test.create({
+        data: {
+            name: test.name,
+            pdfUrl: test.pdfUrl,
+            categoryId: test.categoryId,
+            teacherDisciplineId: test.teacherDisciplineId,
+        },
+    });
 }
