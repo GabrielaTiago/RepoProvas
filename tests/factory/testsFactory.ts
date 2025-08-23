@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { Test } from '@prisma/client';
 import { database } from 'src/database/postgres';
+import { TGetTestsByDiscipline, TGetTestsByTeacher } from 'src/types/testTypes';
 
 export function __createMockTest(overrides?: Partial<Test>) {
     return {
@@ -16,7 +17,7 @@ export function __createMockTest(overrides?: Partial<Test>) {
     };
 }
 
-export function __createMockTestsByDiscipline(disciplineName?: string) {
+export function __createMockTestsByDiscipline(disciplineName?: string): TGetTestsByDiscipline {
     return {
         id: faker.number.int({ min: 1, max: 100 }),
         number: faker.number.int({ min: 1, max: 100 }),
@@ -26,8 +27,8 @@ export function __createMockTestsByDiscipline(disciplineName?: string) {
                 name: disciplineName || faker.lorem.words(3),
                 TeacherDiscipline: [
                     {
-                        id: faker.number.int({ min: 1, max: 100 }),
                         Teacher: {
+                            id: faker.number.int({ min: 1, max: 100 }),
                             name: faker.lorem.words(3),
                         },
                         Test: [
@@ -35,7 +36,6 @@ export function __createMockTestsByDiscipline(disciplineName?: string) {
                                 id: faker.number.int({ min: 1, max: 100 }),
                                 name: faker.lorem.words(3),
                                 pdfUrl: faker.internet.url(),
-                                createdAt: faker.date.recent(),
                             },
                         ],
                     },
@@ -45,7 +45,7 @@ export function __createMockTestsByDiscipline(disciplineName?: string) {
     };
 }
 
-export function __createMockTestsByTeacher(teacherName?: string) {
+export function __createMockTestsByTeacher(teacherName?: string): TGetTestsByTeacher {
     return {
         id: faker.number.int({ min: 1, max: 100 }),
         name: teacherName || faker.lorem.words(3),
@@ -54,17 +54,16 @@ export function __createMockTestsByTeacher(teacherName?: string) {
                 Discipline: {
                     id: faker.number.int({ min: 1, max: 100 }),
                     name: faker.lorem.words(3),
+                    term: {
+                        id: faker.number.int({ min: 1, max: 100 }),
+                        number: faker.number.int({ min: 1, max: 100 }),
+                    },
                 },
                 Test: [
                     {
                         id: faker.number.int({ min: 1, max: 100 }),
                         name: faker.lorem.words(3),
                         pdfUrl: faker.internet.url(),
-                        createdAt: faker.date.recent(),
-                        Category: {
-                            id: faker.number.int({ min: 1, max: 100 }),
-                            name: faker.lorem.words(2),
-                        },
                     },
                 ],
             },
