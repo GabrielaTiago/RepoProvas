@@ -1,63 +1,77 @@
 import { describe, expect, it } from 'vitest';
 
+import { database } from '../../src/database/postgres';
 import { agent } from '../factory/agentFactory';
-import { __createEmail, __createPassword, __createSession, __createUser } from '../factory/userFactory';
+import { __createAuthData, __createUser } from '../factory/userFactory';
 
-describe('Tests in the route /sign-up', () => {
-    it('Should be able to register with valdid credentials', async () => {
-        const user = await __createUser();
-        const result = await agent.post('/sign-up').send(user);
-        expect(result.status).toEqual(201);
-        expect(result.body).not.toBeNull();
+describe('Auth Integration', () => {
+    describe('[POST] /sign-up', () => {
+        it('should return 201 and create a user with the correct data', async () => {
+            const userData = __createAuthData();
+
+            const result = await agent.post('/sign-up').send(userData);
+
+            expect(result.status).toEqual(201);
+            expect(result.body.message).toBe('User created successfully');
+
+            const userInDB = await database.user.findUnique({ where: { email: userData.email } });
+            expect(userInDB).not.toBeNull();
+            expect(userInDB?.email).toBe(userData.email);
+            expect(userInDB?.password).not.toBe(userData.password);
+        });
+
+        it('should return 409 if the email already exists', async () => {
+            const userData = __createAuthData();
+
+            await agent.post('/sign-up').send(userData);
+            const result = await agent.post('/sign-up').send(userData);
+
+            expect(result.status).toEqual(409);
+            expect(result.body.message).toBe('This email has already been registered');
+        });
+
+        it('should return 422 if the password does not match the password confirmation', async () => {
+            const { email, password } = __createAuthData();
+            const confirmPassword = 'DiffPassword123!';
+
+            const result = await agent.post('/sign-up').send({ email, password, confirmPassword });
+
+            expect(result.status).toEqual(422);
+            expect(result.body.message).toBe('Confirm password must match password');
+        });
     });
 
-    it('Should not be able to register if the email already exits', async () => {
-        const user = await __createUser();
-        await agent.post('/sign-up').send(user);
-        const result = await agent.post('/sign-up').send(user);
-        expect(result.status).toEqual(409);
-    });
+    describe('[POST] /login', () => {
+        it('should return 200 and log a user in if he has the correct credentials', async () => {
+            const user = await __createUser();
+            const userCredentials = { email: user.email, password: user.password };
 
-    it('Should not be able to register if the password does not macth the password confirmation', async () => {
-        const user = await __createUser();
-        const wrongPassword = await __createPassword();
-        const result = await agent.post('/sign-up').send({ ...user, password: wrongPassword });
-        expect(result.status).toEqual(422);
-        expect(user.password).not.toMatch(wrongPassword);
-    });
-});
+            const result = await agent.post('/login').send(userCredentials);
 
-describe('Tests in the route /', () => {
-    it('Should log a user in if he has the correct credentials', async () => {
-        const user = await __createUser();
-        await agent.post('/sign-up').send(user);
-        const userSession = { email: user.email, password: user.password };
-        const session = await __createSession(userSession);
-        const result = await agent.post('/login').send(session);
-        expect(result.status).toEqual(200);
-        expect(result.body).not.toBeNull();
-        expect(result.body).toHaveProperty('token');
-    });
+            expect(result.status).toEqual(200);
+            expect(result.body).not.toBeNull();
+            expect(result.body).toHaveProperty('token');
+            expect(result.body.message).toBe('Authentication successful');
+        });
 
-    it('Should not log the user in if he has the wrong password', async () => {
-        const user = await __createUser();
-        await agent.post('/sign-up').send(user);
-        const wrongPassword = await __createPassword();
-        const userSession = { email: user.email, password: wrongPassword };
-        const session = await __createSession(userSession);
-        const result = await agent.post('/login').send(session);
-        expect(result.status).toEqual(403);
-        expect(result.body).not.toBeNull();
-    });
+        it('should return 403 and not log the user in if he has the wrong password', async () => {
+            const user = await __createUser();
+            const userCredentials = { email: user.email, password: 'wrongPassword123!' };
 
-    it('Should not log the user in if he has the wrong email', async () => {
-        const user = await __createUser();
-        await agent.post('/sign-up').send(user);
-        const wrongEmail = await __createEmail();
-        const userSession = { email: wrongEmail, password: user.password };
-        const session = await __createSession(userSession);
-        const result = await agent.post('/login').send(session);
-        expect(result.status).toEqual(403);
-        expect(result.body).not.toBeNull();
+            const result = await agent.post('/login').send(userCredentials);
+
+            expect(result.status).toEqual(403);
+            expect(result.body.message).toBe('Incorrect email and/or password');
+        });
+
+        it('should return 403 and not log the user in if he has the wrong email', async () => {
+            const user = await __createUser();
+            const userCredentials = { email: 'wrongEmail@example.com', password: user.password };
+
+            const result = await agent.post('/login').send(userCredentials);
+
+            expect(result.status).toEqual(403);
+            expect(result.body.message).toBe('Incorrect email and/or password');
+        });
     });
 });
